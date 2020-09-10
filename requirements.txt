@@ -1,0 +1,11 @@
+flask
+flask_cors
+pyopenssl
+numpy
+gunicorn
+pandas
+glob3
+rank_bm25
+scikit-learn
+gensim
+nltk
