@@ -41,31 +41,33 @@ def get_model():
 
 	### Execute any model
 	return jsonify(
-	[
 		{
-			"time": "Baia de Guanabara",
-			"usuario": "Hugo Rebelo"
-			"pontuacao": 50
-		},
-		{
-			"time": "Biduzido",
-			"usuario": "Kleyton Cotta"
-			"pontuacao": 49
-		},
-		{
-			"time": "Time 3",
-			"usuario": "Usuario 3"
-			"pontuacao": 30
-		}.
-		{
-			"time": "Time 4",
-			"usuario": "Usuario 4"
-			"pontuacao": 20
-		}	
-	]
-		
+			"clubes": [
+				{
+					"time": "Baia de Guanabara",
+					"usuario": "Hugo Rebelo",
+					"pontuacao": 50
+				},
+				{
+					"time": "Biduzido",
+					"usuario": "Kleyton Cotta",
+					"pontuacao": 49
+				},
+				{
+					"time": "Time 3",
+					"usuario": "Usuario 3",
+					"pontuacao": 30
+				},
+				{
+					"time": "Time 4",
+					"usuario": "Usuario 4",
+					"pontuacao": 20
+				}	
+			],	
+			"rodada": 1	
+		}
 	)
-
+	
 
 
 
