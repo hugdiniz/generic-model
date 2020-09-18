@@ -20,32 +20,54 @@ def login():
 		abort(401)
 		return False
 
-@app.route("/api/test", methods = ["GET"])
+@app.route("/api/cartola/rodada", methods = ["GET"])
 def get_model():
-	login()
+	#login()
 
 	### Get Variables
 	k = 5
 
-	try:
-		if("k" in request.args):
-			k = int(request.args["k"])
-		
-		query = request.args["query"]
-	except:
-		return app.response_class(
-      response="query or k wrong formatted",
-      status=400,
-      mimetype='application/json'
-    )
+	#try:
+	#	if("k" in request.args):
+	#		k = int(request.args["k"])
+	#	
+	#	query = request.args["query"]
+	#except:
+	#	return app.response_class(
+      			#response="query or k wrong formatted",
+      			#status=400,
+      			#mimetype='application/json'
+    		#)
 
 	### Execute any model
 	return jsonify(
+	[
 		{
-			"k": k,
-			"query": query
-		}
+			"time": "Baia de Guanabara",
+			"usuario": "Hugo Rebelo"
+			"pontuacao": 50
+		},
+		{
+			"time": "Biduzido",
+			"usuario": "Kleyton Cotta"
+			"pontuacao": 49
+		},
+		{
+			"time": "Time 3",
+			"usuario": "Usuario 3"
+			"pontuacao": 30
+		}.
+		{
+			"time": "Time 4",
+			"usuario": "Usuario 4"
+			"pontuacao": 20
+		}	
+	]
+		
 	)
+
+
+
 
 def controller(app):
 	app.static_folder = 'static'
