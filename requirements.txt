@@ -4,3 +4,4 @@ pyopenssl
 gunicorn
 pandas
 numpy
+mongoengine
