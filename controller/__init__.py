@@ -1,11 +1,10 @@
 from flask import Flask, request,abort
 from flask_cors import CORS
 from flask import jsonify
-import os
 
-app = Flask(__name__)
-#app = Flask(__name__,static_folder="static")
-cors = CORS(app)
+from controller.class_server import *
+import os
+import sys
 
 @app.route("/")
 def index():
@@ -72,25 +71,15 @@ def get_model():
 
 
 def controller(app):
-	app.static_folder = 'static'
+	app.static_folder = 'static'  
 	port = int(os.environ.get('PORT', 5000))
-	app.run(host='0.0.0.0',ssl_context='adhoc',port=port)
-	
+	#app.run(host='0.0.0.0',ssl_context='adhoc',port=port)
+	if "LOCAL" in sys.argv:		
+		app.run(host='0.0.0.0',port=port)
+	else:
+		app.run(host='0.0.0.0',ssl_context='adhoc',port=port)
+
 	##init_train_model()
 	##print("Training time: "+ str(time() - t0))
 	
 	
-
-@app.errorhandler(401)
-def denied(error):
-    return "401 Acess Denied"
-
-
-@app.errorhandler(500)
-def internal_error(error):
-    return "500 Internal Server Error"
-
-
-if __name__ == "__main__":
-	controller(app)
-
