@@ -90,13 +90,9 @@ app = Flask(__name__)
 cors = CORS(app)
 
 config_vars = load_config_variables()
+connect(    
+    host='mongodb+srv://'+config_vars["mongo_user"]+':'+config_vars["mongo_pwd"]+'@cartola-data.6zndg.gcp.mongodb.net/?retryWrites=true&w=majority'
+)
 
-def connect_mongo():
-    connect(    
-        host='mongodb+srv://'+config_vars["mongo_user"]+':'+config_vars["mongo_pwd"]+'@cartola-data.6zndg.gcp.mongodb.net/?retryWrites=true&w=majority'
-    )
-    print('mongodb+srv://'+config_vars["mongo_user"]+':'+config_vars["mongo_pwd"]+'@cartola-data.6zndg.gcp.mongodb.net/?retryWrites=true&w=majority')
-
-connect_mongo()
 
 
