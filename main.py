@@ -2,8 +2,10 @@ from flask import Flask, request,abort
 from flask_cors import CORS
 from flask import jsonify
 import os
+
 from controller.class_server import *
 from controller.cup import *
+from controller.time import *
 from controller import *
 
 @app.errorhandler(401)

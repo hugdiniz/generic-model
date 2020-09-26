@@ -2,13 +2,21 @@ from flask import Flask
 from flask_cors import CORS
 from flask import jsonify
 from mongoengine import *
+import json
+import sys
+import os
 
-app = Flask(__name__)
-#app = Flask(__name__,static_folder="static")
-cors = CORS(app)
-
-
-
+def load_config_variables():
+    variables = {}
+    if "LOCAL" in sys.argv:	
+        mongo_credentials = json.load(open("data/keys/mongo.json",))
+        variables["mongo_user"] = mongo_credentials["user"]
+        variables["mongo_pwd"] = mongo_credentials["pwd"]
+    else:
+        variables["mongo_user"] = os.environ['mongo_user']
+        variables["mongo_pwd"] = os.environ['mongo_pwd']
+    
+    return variables
 
 class APIError(Exception):
     status_code = 500
@@ -68,3 +76,21 @@ def listField_to_dict(listdata):
             return_data.append(data)
             
         return return_data
+
+
+
+######################
+######## VARS ########
+######################
+
+app = Flask(__name__)
+#app = Flask(__name__,static_folder="static")
+cors = CORS(app)
+
+config_vars = load_config_variables()
+
+connect(    
+    host='mongodb+srv://'+config_vars["mongo_user"]+':'+config_vars["mongo_pwd"]+'@cartola-data.6zndg.gcp.mongodb.net/?retryWrites=true&w=majority'
+)
+
+

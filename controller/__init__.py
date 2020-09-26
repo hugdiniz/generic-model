@@ -17,7 +17,6 @@ def login():
 		print(request.form)
 		print(request.args)
 		abort(401)
-		return False
 
 @app.route("/api/cartola/rodada", methods = ["GET"])
 def get_model():
