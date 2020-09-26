@@ -6,3 +6,4 @@ pandas
 numpy
 mongoengine
 dnspython
+asyncio

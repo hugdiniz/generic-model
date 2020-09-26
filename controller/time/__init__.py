@@ -3,8 +3,6 @@ from flask import request
 from controller.class_server import *
 from model.time import *
 
-print(time = Time.objects()[0])
-
 @app.route("/api/cartola/time", methods = ["GET"])
 def time():
     try:

@@ -5,6 +5,9 @@ from mongoengine import *
 import json
 import sys
 import os
+import asyncio
+
+from model.time import *
 
 def load_config_variables():
     variables = {}
@@ -78,7 +81,6 @@ def listField_to_dict(listdata):
         return return_data
 
 
-
 ######################
 ######## VARS ########
 ######################
@@ -89,8 +91,12 @@ cors = CORS(app)
 
 config_vars = load_config_variables()
 
-connect(    
-    host='mongodb+srv://'+config_vars["mongo_user"]+':'+config_vars["mongo_pwd"]+'@cartola-data.6zndg.gcp.mongodb.net/?retryWrites=true&w=majority'
-)
+async def connect_mongo():
+    connect(    
+        host='mongodb+srv://'+config_vars["mongo_user"]+':'+config_vars["mongo_pwd"]+'@cartola-data.6zndg.gcp.mongodb.net/?retryWrites=true&w=majority'
+    )
+    print(time = Time.objects()[0])
+
+asyncio.run(connect_mongo())
 
 
