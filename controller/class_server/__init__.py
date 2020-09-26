@@ -91,12 +91,12 @@ cors = CORS(app)
 
 config_vars = load_config_variables()
 
-async def connect_mongo():
+def connect_mongo():
     connect(    
         host='mongodb+srv://'+config_vars["mongo_user"]+':'+config_vars["mongo_pwd"]+'@cartola-data.6zndg.gcp.mongodb.net/?retryWrites=true&w=majority'
     )
-    print(time = Time.objects()[0])
+    print('mongodb+srv://'+config_vars["mongo_user"]+':'+config_vars["mongo_pwd"]+'@cartola-data.6zndg.gcp.mongodb.net/?retryWrites=true&w=majority')
 
-asyncio.run(connect_mongo())
+connect_mongo()
 
 
