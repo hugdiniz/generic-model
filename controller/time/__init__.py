@@ -10,13 +10,15 @@ def time():
         if("id_cartola" in request.args):
             id_cartola = int(request.args["id_cartola"])
         else:
+            print("id_cartola is missing")
             return app.response_class(
             response="id_cartola is missing",
             status=400,
             mimetype='application/json'
     	)
 
-    except:
+    except Exception as e:
+        print(e)
         return app.response_class(
             response="query or k wrong formatted",
             status=400,
@@ -25,7 +27,8 @@ def time():
     try:
         time = Time.objects(id_cartola=id_cartola)[0]
 
-    except:
+    except Exception as e:
+        print(e)
         return app.response_class(
             response="id_cartola not found in database",
             status=400,
