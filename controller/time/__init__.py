@@ -36,3 +36,10 @@ def time():
     
     
     return mongo_to_dict(time)
+
+
+@app.route("/api/cartola/times", methods = ["GET"])
+def times():
+    
+    times = Time.objects()
+    return {"times": mongo_to_dict(times)}
