@@ -1,14 +1,21 @@
 from flask import Flask
 from flask_cors import CORS
 from flask import jsonify
+from flask_restplus import Api
 from mongoengine import *
 import json
 import sys
 import os
 
+from flask_restplus import Api, Resource, fields,reqparse
 from model.time import *
 
 def load_config_variables():
+
+    ################################
+    ####### DB - Variables #########
+    ################################
+
     variables = {}
     if "LOCAL" in sys.argv:	
         mongo_credentials = json.load(open("data/keys/mongo.json",))
@@ -17,6 +24,12 @@ def load_config_variables():
     else:
         variables["mongo_user"] = os.environ['mongo_user']
         variables["mongo_pwd"] = os.environ['mongo_pwd']
+
+    #################################
+    #### Configuration Variables ####
+    #################################
+
+    variables.update(json.load(open("data/config.json",'r')))
     
     return variables
 
@@ -135,6 +148,11 @@ def listField_to_dict(listdata):
 ######################
 
 app = Flask(__name__)
+api = Api(app)
+
+descricao = "Cartola - Times"
+namespace_cartola = api.namespace('api/cartola/', description=descricao)
+
 #app = Flask(__name__,static_folder="static")
 cors = CORS(app)
 

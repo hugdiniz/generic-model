@@ -2,6 +2,7 @@ from mongoengine import *
 from model.rodada import *
 import numpy as np
 import pandas as pd
+from flask import jsonify
 
 class Liga():
     nome = StringField()
@@ -80,4 +81,85 @@ class Campeonato(Liga,Document):
         saida.sort_values(by=["Pontos","PontosCapitao","Gols","Patriomonio"],inplace=True,ascending=False)
 
         return saida
+
+def sort_resultado(resultado):
+    return resultado.colocacao 
+def sort_resultado_id(resultado):
+    return resultado.id_cartola 
+
+
+class Copa():
+    def __init__(self,rodada_seletiva,rodadas, config_vars):
+        total_times = pow(2,config_vars["copa_total_chaves"])
+        resultados = rodada_seletiva.resultados
+        resultados.sort(key=sort_resultado)
+        
+        classificados =  [resultado for resultado in resultados[:total_times]]
+        
+        resultados.sort(key=sort_resultado_id)       
+        self.chaves = {}
+        self.chaves[0] = [None for pos in range(pow(2, config_vars["copa_total_chaves"] - 1 ))] 
+        for posicao_chave,i in zip(config_vars["copa_posicao_chaves"],range(pow(2, config_vars["copa_total_chaves"] - 1 ))):
+            id_time1 = classificados[i].id_cartola
+            id_time2 = classificados[total_times - i - 1].id_cartola
+            index_time1 = None
+            index_time2 = None
+            
+            for j,time in zip(range(resultados.__len__()),resultados):
+                if(time.id_cartola == id_time1):
+                    index_time1 = j
+                if(time.id_cartola == id_time2):
+                    index_time2 = j
+                if( index_time1 != None and index_time2 != None):
+                    break
+                    
+            self.chaves[0][posicao_chave] = Chave(id_time1,id_time2,index_time1,index_time2)
+            
+        self.campeao = None
+        
+        ########################
+        ### Execucao Rodadas ###
+        ########################
+        
+        i = 1
+        for rodada in rodadas:
+            self.chaves[i] = []
+
+            resultados = rodada.resultados
+            resultados.sort(key=sort_resultado_id)
+
+            if (self.chaves[i-1].__len__() == 1):                
+                self.campeao = self.chaves[i-1][0].vencedor(resultados)[0]
+
+            elif (self.chaves[i-1].__len__() >  1):
+                for j in range(int(self.chaves[i-1].__len__() / 2)):                    
+                    id_time1,index_time1 = self.chaves[i-1][2*j].vencedor(resultados)
+                    id_time2,index_time2 = self.chaves[i-1][2*j + 1].vencedor(resultados) 
+                    chave = Chave(id_time1,id_time2,index_time1,index_time2)
+                    self.chaves[i].append(chave)        
+            i = i + 1
+
+    def to_dict(self):
+        return jsonify(self)
+        
+
+
+            
+class Chave():
+    def __init__(self,id_time1,id_time2,index_time1,index_time2):
+        self.id_time1 = id_time1
+        self.id_time2 = id_time2
+        self.index_time1 = index_time1
+        self.index_time2 = index_time2
     
+    def vencedor(self,resultados):
+        if(resultados[self.index_time1].colocacao < resultados[self.index_time2].colocacao):
+            return self.id_time1,self.index_time1
+        else:
+            return self.id_time2,self.index_time2
+
+    def to_dict(self):
+        return jsonify(self)
+
+    
+        

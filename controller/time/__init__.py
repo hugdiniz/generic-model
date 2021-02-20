@@ -4,16 +4,15 @@ from flask_restplus import Api, Resource, fields,reqparse
 from controller.class_server import *
 from model.time import *
 
-descricao = "Cartola - Times"
-classify_ns = api.namespace('api/cemig/menu_inteligente', description=descricao)
 
-pagination_arguments = reqparse.RequestParser()
-pagination_arguments.add_argument('id_cartola', type=int, required=True,default=5)
 
-@classify_ns.route('/api/cartola/time')
-class Time(Resource):
+time_argumentos = reqparse.RequestParser()
+time_argumentos.add_argument('id_cartola', type=int, required=True,default=5)
 
-    @api.expect(pagination_arguments, validate=True)
+@namespace_cartola.route('/time')
+class TimeController(Resource):
+
+    @api.expect(time_argumentos, validate=True)
     def get(self):
         try:
             if("id_cartola" in request.args):
@@ -50,8 +49,8 @@ class Time(Resource):
 
 
 
-@classify_ns.route('/api/cartola/times')
-class Time(Resource):   
+@namespace_cartola.route('/times')
+class TimesController(Resource):   
     def get(self):
         times = Time.objects()
         return {"times": mongo_to_dict(times)}
