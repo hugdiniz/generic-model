@@ -10,7 +10,7 @@ class CampeonatosController(Resource):
     def get(self):
         try:
             campeonatos = Campeonato.objects()
-
+            rodada_atual = campeonatos[0].rodadas.__len__()
         except Exception as e:
             print(e)
             return app.response_class(
@@ -20,7 +20,8 @@ class CampeonatosController(Resource):
             )
         
         saida = {
-            "campeonatos": [ campeonato.to_dict() for campeonato in campeonatos]
+            "campeonatos": [ campeonato.to_dict() for campeonato in campeonatos],
+            "rodada_atual": rodada_atual
         }
         
         return saida
