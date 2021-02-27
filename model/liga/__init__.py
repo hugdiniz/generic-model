@@ -3,6 +3,7 @@ from model.rodada import *
 import numpy as np
 import pandas as pd
 from flask import jsonify
+from enum import Enum
 
 class Liga():
     nome = StringField()
@@ -23,17 +24,27 @@ class Liga():
             "Colocacao": resultado["Colocacao"]
         }
 
+
+class TipoCampeonato(Enum):
+    MENSAL = "mensal"
+    DIARIO = "diario"
+    GERAL  = "geral"
+            
+        
+class Campeonato(Liga,Document):
+    rodada_final = IntField()   
+    tipo = StringField()
+
     def to_dict(self):
         resultados = self.get_resultados()
         resultados["Colocacao"] = list(range(1,resultados.shape[0]+1))
         return {
             "resultados" : resultados.apply(lambda x: self.__resultado_to_dict__(x),axis=1).values.tolist(),
-            "nome": self.nome
+            "nome": self.nome,
+            "rodadaInicial": self.rodada_inicial,
+            "rodadaFinal": self.rodada_final,
+            "tipo": self.tipo,
         } 
-        
-        
-class Campeonato(Liga,Document):
-    rodada_final = IntField()   
     
     def __init__(self, *args, **kwargs):    
         Document.__init__(self, *args, **kwargs)

@@ -25,17 +25,3 @@ class CampeonatosController(Resource):
         }
         
         return saida
-
-
-def campeonato_to_dict(campeonato):
-    resultados = campeonato.get_resultados()
-    return {
-        "Nome": campeonato.nome,
-        "Time": resultados["Time"].values.tolist(),
-        "Pontos": resultados["Pontos"].values.tolist(),
-        "PontosCapitao": resultados["PontosCapitao"].values.tolist(),
-        "Patriomonio": resultados["Patriomonio"].values.tolist(),
-        "Gols": resultados["Gols"].values.tolist(),
-        "AtletasGol": resultados["AtletasGol"].values.tolist(),
-        "Cartaos": resultados["Cartaos"].values.tolist(),
-    }
