@@ -162,9 +162,13 @@ class Chave():
         self.id_time2 = id_time2
         self.index_time1 = index_time1
         self.index_time2 = index_time2
+
     
     def vencedor(self,resultados):
-        if(resultados[self.index_time1].colocacao < resultados[self.index_time2].colocacao):
+        self.pontos_time1 = resultados[self.index_time1].pontos
+        self.pontos_time2 = resultados[self.index_time2].pontos
+
+        if(resultados[self.index_time1].colocacao < resultados[self.index_time2].colocacao):            
             return self.id_time1,self.index_time1
         else:
             return self.id_time2,self.index_time2

@@ -12,7 +12,7 @@ class UltimaRodadaController(Resource):
         try:
             rodada = Rodada.objects.order_by('-numero').first()
             rodada_map = {
-                "nome": "Ultima Rodada",
+                "nome": "Rodada Atual",
                 "rodada_inicial": rodada.numero,
                 "rodada_final": rodada.numero,
                 "tipo": TipoCampeonato.RODADA.value

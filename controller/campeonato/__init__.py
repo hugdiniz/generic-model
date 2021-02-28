@@ -11,7 +11,16 @@ class CampeonatosController(Resource):
     def get(self):
         try:
             campeonatos = Campeonato.objects()
-            rodada_atual = campeonatos[0].rodadas.__len__()
+            
+            rodada = Rodada.objects.order_by('-numero').first()
+            rodada_map = {
+                "nome": "Ultima Rodada",
+                "rodada_inicial": rodada.numero,
+                "rodada_final": rodada.numero,
+                "tipo": TipoCampeonato.RODADA.value
+            }
+            campeonato_ultima_rodada = Campeonato(**rodada_map)
+            rodada_atual = rodada.numero
         except Exception as e:
             print(e)
             traceback.print_exc()
@@ -25,5 +34,6 @@ class CampeonatosController(Resource):
             "campeonatos": [ campeonato.to_dict() for campeonato in campeonatos],
             "rodada_atual": rodada_atual
         }
+        saida["campeonatos"].append(campeonato_ultima_rodada.to_dict())
         
         return saida
