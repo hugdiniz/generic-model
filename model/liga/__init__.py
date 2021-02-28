@@ -27,7 +27,7 @@ class Liga():
 
 class TipoCampeonato(Enum):
     MENSAL = "mensal"
-    DIARIO = "diario"
+    RODADA = "rodada"
     GERAL  = "geral"
             
         

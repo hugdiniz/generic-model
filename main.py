@@ -6,6 +6,7 @@ import os
 from controller.class_server import *
 from controller.cup import *
 from controller.time import *
+from controller.rodada import *
 from controller.campeonato import *
 from controller import *
 

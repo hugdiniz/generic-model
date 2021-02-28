@@ -148,10 +148,10 @@ def listField_to_dict(listdata):
 ######################
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app,version=0.1,title="API - Open Bar App.",license="MIT License",description="API do Projeto Open Bar Minas - Rio")
 
-descricao = "Cartola - Times"
-namespace_cartola = api.namespace('api/cartola/', description=descricao)
+descricao = "Resultados dos torneios."
+namespace_cartola = api.namespace('api/resultados/', description=descricao)
 
 #app = Flask(__name__,static_folder="static")
 cors = CORS(app)
