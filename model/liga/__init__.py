@@ -98,14 +98,25 @@ def sort_resultado(resultado):
 def sort_resultado_id(resultado):
     return resultado.id_cartola 
 
+__numero_copa__ = 0
+def gerarNomeCopa():
+    global __numero_copa__
+    __numero_copa__ = __numero_copa__ + 1
+    return "Copa " + str(__numero_copa__)
+
 
 class Copa():
-    def __init__(self,rodada_seletiva,rodadas, config_vars):
+    def __init__(self,rodada_seletiva,numero_ultima_rodada,rodadas, config_vars):
         total_times = pow(2,config_vars["copa_total_chaves"])
         resultados = rodada_seletiva.resultados
         resultados.sort(key=sort_resultado)
         
         classificados =  [resultado for resultado in resultados[:total_times]]
+
+        self.nome = gerarNomeCopa()
+        self.descricao = None
+        self.rodada_final = numero_ultima_rodada
+        self.rodada_seletiva = rodada_seletiva.numero  
         
         resultados.sort(key=sort_resultado_id)       
         self.chaves = {}

@@ -12,11 +12,13 @@ class CopaController(Resource):
         try:
             copas = []
             rodadas = Rodada.objects()
-            for numero in config_vars["rodadas_seletiva"]:
-                if(numero <= rodadas.__len__()):
+            for numero in config_vars["rodadas_seletiva"]:               
+                if(numero <= rodadas.__len__()):                    
                     rodada_seletiva = rodadas[numero-1]
-                    rodadas_copa = rodadas[rodada_seletiva.numero:rodada_seletiva.numero+4]
-                    copa = Copa(rodada_seletiva,rodadas_copa,config_vars)        
+                    ultima_rodada = rodada_seletiva.numero+4
+
+                    rodadas_copa = rodadas[rodada_seletiva.numero:ultima_rodada]
+                    copa = Copa(rodada_seletiva,ultima_rodada,rodadas_copa,config_vars)        
                     copas.append(copa)
                 else:
                     break
