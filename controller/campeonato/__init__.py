@@ -21,6 +21,17 @@ class CampeonatosController(Resource):
             }
             campeonato_ultima_rodada = Campeonato(**rodada_map)
             rodada_atual = rodada.numero
+
+            parcial_map = {
+                "nome": "Ultima Rodada",
+                "rodada_inicial": rodada.numero,
+                "rodada_final": rodada.numero,
+                "tipo": TipoCampeonato.RODADA.value
+            }
+
+            parcial = Campeonato(**parcial_map)            
+            parcial.nome = "Parcial"
+            
         except Exception as e:
             print(e)
             traceback.print_exc()
@@ -34,6 +45,22 @@ class CampeonatosController(Resource):
             "campeonatos": [ campeonato.to_dict() for campeonato in campeonatos],
             "rodada_atual": rodada_atual
         }
+
         saida["campeonatos"].append(campeonato_ultima_rodada.to_dict())
+        saida["campeonatos"].append(parcial.to_dict())
+
+        rodadas = Rodada.objects()
+        for rodada in rodadas:
+            print("Rodada " + str(rodada.numero) + " Mês: "+ rodada.mes)           
+            rodada_map = {
+                "nome": "Rodada " + str(rodada.numero) ,
+                "rodada_inicial": rodada.numero,
+                "rodada_final": rodada.numero,
+                "tipo": TipoCampeonato.RODADA.value
+            }
+            campeonato_ultima_rodada = Campeonato(**rodada_map)
+            saida["campeonatos"].append(campeonato_ultima_rodada.to_dict())
+        
+        
         
         return saida
