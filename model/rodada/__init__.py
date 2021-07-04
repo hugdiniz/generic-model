@@ -14,3 +14,5 @@ class Rodada(Document):
     numero = IntField() 
     mes = StringField()
     resultados = ListField(EmbeddedDocumentField(Resultado))
+
+    

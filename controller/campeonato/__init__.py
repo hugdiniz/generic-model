@@ -4,12 +4,14 @@ from controller.class_server import *
 from model.liga import *
 from model.rodada import *
 import traceback
-
+from model.importador import verifica_api, get_rodada_parcial
 
 @namespace_cartola.route('/campeonatos')
 class CampeonatosController(Resource):    
     def get(self):
         try:
+            verifica_api()
+
             campeonatos = Campeonato.objects()
             
             rodada = Rodada.objects.order_by('-numero').first()
@@ -22,15 +24,8 @@ class CampeonatosController(Resource):
             campeonato_ultima_rodada = Campeonato(**rodada_map)
             rodada_atual = rodada.numero
 
-            parcial_map = {
-                "nome": "Ultima Rodada",
-                "rodada_inicial": rodada.numero,
-                "rodada_final": rodada.numero,
-                "tipo": TipoCampeonato.RODADA.value
-            }
-
-            parcial = Campeonato(**parcial_map)            
-            parcial.nome = "Parcial"
+            
+            
             
         except Exception as e:
             print(e)
@@ -47,7 +42,16 @@ class CampeonatosController(Resource):
         }
 
         saida["campeonatos"].append(campeonato_ultima_rodada.to_dict())
-        saida["campeonatos"].append(parcial.to_dict())
+
+        parcial = get_rodada_parcial()      
+        if parcial !=None:
+            campeonato_parcial = Campeonato()
+            campeonato_parcial.rodadas = [parcial]
+            campeonato_parcial.rodada_inicial = parcial.numero
+            campeonato_parcial.rodada_final = parcial.numero
+            campeonato_parcial.nome = "Parcial"   
+
+            saida["campeonatos"].append(campeonato_parcial.to_dict())
 
         rodadas = Rodada.objects()
         for rodada in rodadas:
