@@ -8,6 +8,6 @@ numpy
 mongoengine
 dnspython
 asyncio
+requests==2.24.0
 werkzeug==0.16.1
 jsonpickle==2.0.0
-requests==2.24.0
